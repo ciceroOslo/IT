@@ -126,7 +126,7 @@ Else {
 Start-Transcript -Path "C:\ProgramData\Debloat\Debloat.log"
 
 $locale = Get-WinSystemLocale | Select-Object -expandproperty Name
-
+<#
 ##Switch on locale to set variables
 ## Switch on locale to set variables
 switch ($locale) {
@@ -279,7 +279,7 @@ switch ($locale) {
         $builtin = "Builtin"
     }
 }
-
+#>
 ############################################################################################################
 #                                        Remove AppX Packages                                              #
 #                                                                                                          #
