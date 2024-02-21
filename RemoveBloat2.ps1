@@ -111,9 +111,10 @@ Get-ScriptVersion -liveuri "https://raw.githubusercontent.com/andrew-s-taylor/pu
 
 #Create Folder
 $DebloatFolder = "C:\ProgramData\Debloat"
-If (Test-Path $DebloatFolder) {
+$DebloatLog = "C:\ProgramData\Debloat\Debloat.log"
+If (Test-Path $DebloatLog) {
     Start-Transcript -Path "C:\ProgramData\Debloat\Debloat.log"
-    Write-Output "$DebloatFolder exists. Skipping all commands."
+    Write-Output "Has already been run. Skipping all commands."
 
 }
 Else {
