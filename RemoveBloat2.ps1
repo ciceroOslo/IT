@@ -1258,64 +1258,7 @@ if ($manufacturer -like "Lenovo") {
 #                                                                                                          #
 ############################################################################################################
 
-#McAfee
 
-write-host "Detecting McAfee"
-$mcafeeinstalled = "false"
-$InstalledSoftware = Get-ChildItem "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall"
-foreach($obj in $InstalledSoftware){
-     $name = $obj.GetValue('DisplayName')
-     if ($name -like "*McAfee*") {
-         $mcafeeinstalled = "true"
-     }
-}
-
-$InstalledSoftware32 = Get-ChildItem "HKLM:\Software\WOW6432NODE\Microsoft\Windows\CurrentVersion\Uninstall"
-foreach($obj32 in $InstalledSoftware32){
-     $name32 = $obj32.GetValue('DisplayName')
-     if ($name32 -like "*McAfee*") {
-         $mcafeeinstalled = "true"
-     }
-}
-
-if ($mcafeeinstalled -eq "true") {
-    Write-Host "McAfee detected"
-    #Remove McAfee bloat
-##McAfee
-### Download McAfee Consumer Product Removal Tool ###
-write-host "Downloading McAfee Removal Tool"
-# Download Source
-$URL = 'https://github.com/andrew-s-taylor/public/raw/main/De-Bloat/mcafeeclean.zip'
-
-# Set Save Directory
-$destination = 'C:\ProgramData\Debloat\mcafee.zip'
-
-#Download the file
-Invoke-WebRequest -Uri $URL -OutFile $destination -Method Get
-  
-Expand-Archive $destination -DestinationPath "C:\ProgramData\Debloat" -Force
-
-write-host "Removing McAfee"
-# Automate Removal and kill services
-start-process "C:\ProgramData\Debloat\Mccleanup.exe" -ArgumentList "-p StopServices,MFSY,PEF,MXD,CSP,Sustainability,MOCP,MFP,APPSTATS,Auth,EMproxy,FWdiver,HW,MAS,MAT,MBK,MCPR,McProxy,McSvcHost,VUL,MHN,MNA,MOBK,MPFP,MPFPCU,MPS,SHRED,MPSCU,MQC,MQCCU,MSAD,MSHR,MSK,MSKCU,MWL,NMC,RedirSvc,VS,REMEDIATION,MSC,YAP,TRUEKEY,LAM,PCB,Symlink,SafeConnect,MGS,WMIRemover,RESIDUE -v -s"
-write-host "McAfee Removal Tool has been run"
-
-}
-
-##Uninstall Office Home Pro
-
-$whitelistapps = @(
-    "Microsoft 365 Apps for enterprise - en-us"
-    "Microsoft 365 Apps for enterprise - nb-no"
-
-)
-
-$OfficeUninstallStrings = (Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Where {($_.DisplayName -like "*Microsoft 365*") -and ($_.DisplayName -notin $whitelistapps)} | Select-Object UninstallString).UninstallString
-    ForEach ($UninstallString in $OfficeUninstallStrings) {
-        $UninstallEXE = ($UninstallString -split '"')[1]
-        $UninstallArg = ($UninstallString -split '"')[2] + " DisplayLevel=False"
-        Start-Process -FilePath $UninstallEXE -ArgumentList $UninstallArg -Wait
-    }    
 ##Look for anything else
 
 ##Make sure Intune hasn't installed anything so we don't remove installed apps
