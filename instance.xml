@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<metadata>
+  <node name="address">
+    <value value="https://cicero.deltekenterprise.com"/>
+  </node>
+  <node name="port">
+    <value value="443"/>
+  </node>
+  <node name="database">
+    <value value="cicero"/>
+  </node>
+  <node name="allow-reconfiguration">
+    <value value="true"/>
+  </node>
+</metadata>
